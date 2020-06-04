@@ -1,0 +1,39 @@
+<div class="p-0">
+  <div class="p-3 content">
+    <h2>
+      <a href="" data-target="#sidebar" data-toggle="collapse" class="d-md-none"><i class="fa fa-bars"></i></a>
+     Главная
+    </h2>
+    <br><br>
+    <form>
+        <div class="form-group">
+          <label for="authorfirstname">Имя автора</label>
+          <textarea class="form-control" id="authorfirstname" rows="1"></textarea>
+          <label for="authorlastname">Фамилия автора</label>
+          <textarea class="form-control" id="authorlastname" rows="1"></textarea>
+          <label for="authornickname">Ник автора</label>
+          <textarea class="form-control" id="authornickname" rows="1"></textarea>
+        <label for="content">Текст статьи</label>
+        <textarea class="form-control" id="content" rows="5"></textarea>
+
+        </div>
+    </form>
+    <div class="input-group"><button type="button" class="btn btn-primary pull-right" (click)="addPost()">Твитнуть</button></div>
+
+    <br>
+
+    <div class="ramka" *ngFor="let post of posts">
+      <h6 class="text-primary"> {{post.author.firstName}} {{post.author.lastName}}
+        <span class="text-secondary">{{post.author.nikName}}
+        </span> {{post.date|date:'medium'}}
+        <i class="fa fa-pencil-square-o float-right" aria-hidden="true" (click)="openEditPost(post)"></i>
+
+    </h6>
+     <div class="post">{{post.content}}</div>
+      <br>
+
+
+    </div>
+
+  </div>
+</div>
