@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {Post} from "../model/Post";
 import {PostService} from "../servise/post.service";
 import {IditpostdialogComponent} from "../iditpostdialog/iditpostdialog.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {TestData} from "../data/Test Data";
+import {User} from "../model/User";
 
 @Component({
   selector: 'app-posts',
@@ -17,11 +19,22 @@ export class PostsComponent implements OnInit {
   constructor(private postService: PostService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
+
+    this.newPostgonull();
     this.initPosts();
+
   }
 
+  newPostgonull(): void{
+    this.newPost = new Post(null, new User('', '', ''), '',null);
+  // this.newPost.content = ' ';
+  // this.newPost.author.nikName = ' ';
+  // this.newPost.author.firstName = ' ';
+  // this.newPost.author.lastName = ' ';
+}
+
   initPosts() {
-    this.postService.getAll().subscribe(response => {
+    this.postService.getAllPosts().subscribe(response => {
 
       this.posts = response
     })
@@ -38,6 +51,19 @@ export class PostsComponent implements OnInit {
   }
 
   addPost() {
+    this.newPost.date =  new Date();
+    this.newPost.id = TestData.length+1;
+    this.postService.addPost(this.newPost).subscribe(() => {
+      this.initPosts();
+      this.newPostgonull();
+    });
+  }
+
+
+  deletePost(post: Post) {
+    this.postService.deletePost(post.id).subscribe(() => {
+      this.initPosts();
+    });
 
   }
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {AppService} from "../servise/app.service";
+import {HttpClient} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-menu',
@@ -7,9 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private app: AppService) { }
   ngOnInit(): void {
   }
 
+  logout() {
+    this.app.logout();
+  }
 }

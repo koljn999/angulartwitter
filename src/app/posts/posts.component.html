@@ -8,13 +8,13 @@
     <form>
         <div class="form-group">
           <label for="authorfirstname">Имя автора</label>
-          <textarea class="form-control" id="authorfirstname" rows="1"></textarea>
+          <textarea class="form-control" name="authorfirstname" id="authorfirstname" rows="1" [(ngModel)]="newPost.author.firstName"></textarea>
           <label for="authorlastname">Фамилия автора</label>
-          <textarea class="form-control" id="authorlastname" rows="1"></textarea>
+          <textarea class="form-control" name="authorlastname" id="authorlastname" rows="1" [(ngModel)]="newPost.author.lastName"></textarea>
           <label for="authornickname">Ник автора</label>
-          <textarea class="form-control" id="authornickname" rows="1"></textarea>
+          <textarea class="form-control" name="authornickname" id="authornickname" rows="1" [(ngModel)]="newPost.author.nikName"></textarea>
         <label for="content">Текст статьи</label>
-        <textarea class="form-control" id="content" rows="5"></textarea>
+        <textarea class="form-control" name="content" id="content" rows="5" [(ngModel)]="newPost.content"></textarea>
 
         </div>
     </form>
@@ -26,12 +26,15 @@
       <h6 class="text-primary"> {{post.author.firstName}} {{post.author.lastName}}
         <span class="text-secondary">{{post.author.nikName}}
         </span> {{post.date|date:'medium'}}
-        <i class="fa fa-pencil-square-o float-right" aria-hidden="true" (click)="openEditPost(post)"></i>
+        <i class="fa fa-pencil-square-o float-right lg" aria-hidden="true" (click)="openEditPost(post)"></i>
 
     </h6>
      <div class="post">{{post.content}}</div>
-      <br>
 
+      <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-primary m-1" (click)="openEditPost(post)">Редактировать</button>
+      <button type="button" class="btn btn-danger m-1" (click)="deletePost(post)">Удалить</button>
+      </div>
 
     </div>
 

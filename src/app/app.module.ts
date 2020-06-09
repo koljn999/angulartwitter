@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {Injectable, NgModule} from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -14,14 +14,29 @@ import {AppRoutingModule} from "./app-routing.module";
 import { MenuComponent } from './menu/menu.component';
 import { IditpostdialogComponent } from './iditpostdialog/iditpostdialog.component';
 import {FormsModule} from "@angular/forms";
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import { LoginComponent } from './login/login.component';
+import {AppService} from "./servise/app.service";
+import {HttpInterceptorService} from "./servise/http-interceptor.service";
 
+@Injectable()
+export class XhrInterceptor implements HttpInterceptor {
+
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const xhr = req.clone({
+      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
+    });
+    return next.handle(xhr);
+  }
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     PostsComponent,
     MenuComponent,
-    IditpostdialogComponent
+    IditpostdialogComponent,
+    LoginComponent
   ],
   imports: [BrowserModule,
     BrowserAnimationsModule,
@@ -31,11 +46,19 @@ import {FormsModule} from "@angular/forms";
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
     AlertModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [
     IditpostdialogComponent
   ],
+  providers: [AppService,  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorService,
+    multi: true
+  }],
 })
 export class AppModule { }
+
+

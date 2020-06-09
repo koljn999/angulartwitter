@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {Post} from "../model/Post";
 import {PostService} from "../servise/post.service";
+import {PostsComponent} from "../posts/posts.component";
 
 @Component({
   selector: 'app-iditpostdialog',
@@ -25,5 +26,15 @@ export class IditpostdialogComponent implements OnInit {
     });
 
 
+  }
+
+  dialogWindowGlose() {
+    this.activeModal.close('closed')
+  }
+
+  deletePost(post: Post) {
+    this.postServise.deletePost(post.id).subscribe(() => {
+      this.activeModal.close('closed')
+    });
   }
 }
