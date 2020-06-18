@@ -18,6 +18,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpR
 import { LoginComponent } from './login/login.component';
 import {AppService} from "./servise/app.service";
 import {HttpInterceptorService} from "./servise/http-interceptor.service";
+import {CookieService} from "ngx-cookie-service";
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -53,11 +54,15 @@ export class XhrInterceptor implements HttpInterceptor {
   entryComponents: [
     IditpostdialogComponent
   ],
-  providers: [AppService,  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: HttpInterceptorService,
-    multi: true
-  }],
+  providers: [
+    AppService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    },
+    CookieService
+  ],
 })
 export class AppModule { }
 

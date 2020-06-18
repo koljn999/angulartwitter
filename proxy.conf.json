@@ -2,9 +2,5 @@
   "/api": {
     "target": "http://localhost:8092",
     "secure": false
-  },
-  "/login": {
-    "target": "http://localhost:8092",
-    "secure": false
   }
 }
