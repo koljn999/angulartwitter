@@ -2,21 +2,27 @@
   <h1 class="text-center">Login</h1>
   <div class="card">
     <div class="card-body">
-      <form class="form-group">
+      <form class="form-group" (ngSubmit)="f.form.valid && handleLogin()" #f="ngForm" novalidate>
         <div class="alert alert-warning" *ngIf='invalidLogin'>{{errorMessage}}</div>
         <div class="alert alert-success" *ngIf='loginSuccess'>{{successMessage}}</div>
-        <div class="form-group">
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
           <label for="username">User Name :</label>
-          <input type="text" class="form-control" id="username" [(ngModel)]="username" placeholder="Enter User Name"
+          <input type="text" class="form-control" id="username" pattern="[^ @]*@[^ @]*" [(ngModel)]="user.username" #username="ngModel" placeholder="Enter User Name"
                  name="username">
+          <div *ngIf="f.submitted  && !username.valid" class="help-block">an valid email is required</div>
         </div>
-        <div class="form-group">
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
           <label for="password">Password:</label>
-          <input type="password" class="form-control" [(ngModel)]="password" id="password" placeholder="Enter password"
-                 name="password">
+          <input type="password" class="form-control" [(ngModel)]="user.password" id="password" #password="ngModel" placeholder="Enter password"
+                 name="password" required>
+          <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
         </div>
-        <button (click)=handleLogin() class="btn btn-success">Login</button>
+        <div id="remember" class="checkbox">
+
+        </div>
+        <button type="submit" class="btn btn-success">Login</button>
       </form>
+      <a [routerLink]="['/register']" class="btn btn-link">Create new Account!</a>
     </div>
   </div>
 </div>

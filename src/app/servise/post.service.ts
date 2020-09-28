@@ -3,6 +3,9 @@ import {Observable, of} from "rxjs";
 import {TestData} from "../data/Test Data";
 import {Post} from "../model/Post";
 import {HttpClient} from "@angular/common/http";
+import {AppService} from "./app.service";
+import {AppComponent} from "../app.component";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -20,29 +23,36 @@ export class PostService {
   // }
 
   update(post: Post): Observable<any>{
-  let p1 = TestData.posts.find(p => p.id === post.id);
-  p1.content = post.content;
-  p1.author.firstName=post.author.firstName;
-  p1.author.lastName=post.author.lastName;
-  p1.author.nikName=post.author.nikName;
-  return of(p1);
+    return this.httpClient.post(AppComponent.API_URL+"/account/updatepost",  post).pipe (map(result=>{
+      if (result) return true;
+    }, error => {
+      return false
+    }))
 
+  }
+  //
+  //
+  // addPost(newPost: Post): Observable<any> {
+  // // TestData.posts.push(newPost);
+  // //   return of("true");
+  // }
+  //
+  deletePost(post: Post): Observable<boolean> {
+    return this.httpClient.post(AppComponent.API_URL+"/account/deletepost", post).pipe(map(result=>{
+    return true;
+    }))
   }
 
 
-  addPost(newPost: Post): Observable<any> {
-  TestData.posts.push(newPost);
-    return of("true");
+  getAllPostsCurrentUser(): Observable<Post[]> {
+    return this.httpClient.get<Post[]>(AppComponent.API_URL+"/account/posts");
   }
 
-  deletePost(id: number): Observable<any> {
-    const taskTmp = TestData.posts.find(t => t.id === id); // удаляем по id
-    TestData.posts.splice(TestData.posts.indexOf(taskTmp), 1);
-    return of("delete");
-  }
-
-
-  getAllPosts(): Observable<Post[]> {
-    return this.httpClient.get<Post[]>("/api/posts");
+  addPost(newPost: Post) {
+    return this.httpClient.post(AppComponent.API_URL+"/account/addpost",  newPost).pipe (map(result=>{
+      if (result) return true;
+    }, error => {
+      return false
+    }))
   }
 }

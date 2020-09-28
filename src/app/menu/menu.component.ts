@@ -10,12 +10,16 @@ import {Router} from "@angular/router";
 })
 export class MenuComponent implements OnInit {
 
-  constructor(private app: AppService) { }
+  constructor(public appservise: AppService, public router: Router) { }
+
   ngOnInit(): void {
   }
 
-  logout() {
+  logOut(){
+    this.appservise.logOut().subscribe(data=>{
+      this.router.navigate(['/login']);
+    }, error => {
 
-    this.app.logout();
+    });
   }
 }

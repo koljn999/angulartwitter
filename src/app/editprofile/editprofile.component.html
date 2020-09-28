@@ -1,0 +1,52 @@
+<div class="container">
+  <h1 class="text-center">Редактирование профиля:</h1>
+  <form class="form-group" (ngSubmit)="f.form.valid && update()" #f="ngForm" novalidate>
+  <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="profile-head">
+        <h3>
+          {{currentUser.firstName+ " " + currentUser.lastName}}
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !firstname.valid }">
+          <label for="firstname">Имя:</label>
+          <input type="text" class="form-control" id="firstname"   [(ngModel)]="currentUser.firstName" #firstname="ngModel" placeholder="Введите имя"
+                 name="firstname" required>
+          <div *ngIf="f.submitted  && !firstname.valid" class="help-block">Введите имя</div>
+  </div>
+  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !lastname.valid }">
+          <label for="lastname">Фамилия :</label>
+          <input type="text" class="form-control" id="lastname"  [(ngModel)]="currentUser.lastName" #lastname="ngModel" placeholder="Введите фамилию"
+                 name="lastname" required>
+          <div *ngIf="f.submitted  && !lastname.valid" class="help-block">Введите фамилию</div>
+  </div>
+  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !lastname.valid }">
+    <label for="lastname">Дата рождения:</label>
+    <input type="text" class="form-control" id="birthday" type="date" [(ngModel)]="currentUser.birthday" #birthday="ngModel" placeholder="Введите дату рождения"
+           name="birthday">
+    <div *ngIf="f.submitted  && !birthday.valid" class="help-block">Введите правильную дату рождения</div>
+  </div>
+  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !phone.valid }">
+          <label for="phone">Телефон :</label>
+          <input type="text" class="form-control" id="phone"  type="number" [(ngModel)]="currentUser.phone" #phone="ngModel" placeholder="Введите телефон"
+                 name="phone">
+          <div *ngIf="f.submitted  && !phone.valid" class="help-block">
+            <div *ngIf="phone.errors.pattern">
+              Неправильный формат телефона
+            </div>
+          </div>
+  </div>
+  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !profession.valid }">
+    <label for="profession">Профессия :</label>
+    <input type="text" class="form-control" id="profession"   [(ngModel)]="currentUser.profession" #profession="ngModel" placeholder="Введите профессию"
+           name="profession">
+  </div>
+  <div id="remember" class="checkbox"></div>
+        <button type="submit" class="btn btn-lg btn-primary btn-block btn-signin">Сохранить</button>
+        <button [routerLink]="['/profile']" class="btn btn-lg btn-danger btn-block btn-cancel" type="button">Отмена</button>
+</form>
+</div>
+

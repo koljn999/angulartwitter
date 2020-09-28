@@ -13,8 +13,7 @@ import {AppService} from "./servise/app.service";
 
 export class AppComponent {
 
-  constructor(private app: AppService){}
-
-  active = 1;
+  constructor(){}
+  static API_URL="/api";
 
 }

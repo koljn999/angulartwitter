@@ -1,0 +1,58 @@
+<div class="container">
+  <h1 class="text-center">Регистрация</h1>
+  <div class="card">
+    <div class="card-body">
+      <form class="form-group" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+        <div class="alert alert-danger" role="alert" *ngIf="errorMessage">{{errorMessage}}</div>
+        <span id="reauth-email" class="reauth-email"></span>
+         <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !firstname.valid }">
+          <label for="firstname">Имя :</label>
+          <input type="text" class="form-control" id="firstname"  [(ngModel)]="user.firstName" #firstname="ngModel" placeholder="Введите имя"
+                 name="firstname">
+          <div *ngIf="f.submitted  && !firstname.valid" class="help-block">Введите имя</div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !lastname.valid }">
+          <label for="lastname">Фамилия :</label>
+          <input type="text" class="form-control" id="lastname"  [(ngModel)]="user.lastName" #lastname="ngModel" placeholder="Введите фамилию"
+                 name="lastname">
+          <div *ngIf="f.submitted  && !lastname.valid" class="help-block">Введите фамилию</div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+          <label for="username">Email адрес :</label>
+          <input type="text" class="form-control" id="username" pattern="[^ @]*@[^ @]*" [(ngModel)]="user.username" #username="ngModel" placeholder="Введите email адрес"
+                 name="username">
+          <div *ngIf="f.submitted  && !username.valid" class="help-block">a
+
+            <div *ngIf="username.errors.required">
+              Введите email адрес
+            </div>
+            <div *ngIf="username.errors.pattern">
+              Ввелите правильный email адрес
+            </div>
+
+          </div>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+          <label for="password">Пароль:</label>
+          <input type="password" class="form-control" [(ngModel)]="user.password" id="password" #password="ngModel" placeholder="Введите пароль"
+                 name="password" minlength="4" required>
+          <div *ngIf="f.submitted && !password.valid" class="help-block">
+
+            <div *ngIf="password.errors.required">
+              Введите пароль
+            </div>
+            <div *ngIf="password.errors.minlength">
+              Пароль должен быть не менее 4 симоволов
+            </div>
+
+          </div>
+        </div>
+        <div id="remember" class="checkbox">
+
+        </div>
+        <button type="submit" class="btn btn-lg btn-primary btn-block btn-signin">Зарегестрироваться</button>
+        <button [routerLink]="['/login']" class="btn btn-lg btn-danger btn-block btn-cancel" type="button">Отмена</button>
+      </form>
+    </div>
+  </div>
+</div>

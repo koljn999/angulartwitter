@@ -1,76 +1,62 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+
+import {User} from "../model/User";
+import {AppComponent} from "../app.component";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { Response } from '@angular/http';
+import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {CookieService} from "ngx-cookie-service";
-import {Observable, of} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
 
-  // BASE_PATH: 'http://localhost:8092'
-  private LOGIN: string = 'authenticatedUser';
-  private BASIC_AUTH: string = 'basicAuthHeader';
-
-  public username: string;
-  public password: string;
-
-  constructor(private http: HttpClient, private  cookieService: CookieService) {
+  constructor(private http: HttpClient) {
 
   }
 
-  authenticationService(username: string, password: string) {
-      return of(this.http.post <Observable<boolean>>("/api/login", {
-      nikName: username, password: password
-    },
-      // {
-      //   headers: {authorization: this.createBasicAuthToken(username, password)},
-      // }
+  public login(user: User): Observable<any> {
 
-        ).subscribe((res) => {
-      if (res) {
-        debugger
-        this.username = username;
-        this.password = password;
-        this.registerSuccessfulLogin(username, password);
-      }
-      return  res;
-    })
-  )
+    let headers = new HttpHeaders().set("Content-Type", "application/json");
+    headers = headers.append('Accept', 'application/json');
+    // creating base64 encoded String from user name and password
+    var base64Credential: string = btoa(user.username + ':' + user.password);
+    headers = headers.append("Authorization", "Basic " + base64Credential);
 
+    return this.http.get<any>(AppComponent.API_URL + "/account/login", {headers: headers})
+      .pipe(
+        map((response) => {
+          // login successful if there's a jwt token in the response
+          let username = response.principal.username;// the returned user object is a principal object
+          if (username) {
+            // store user details  in local storage to keep user logged in between page refreshes
+            localStorage.setItem('currentUser', username);
+            return user;
+          }
+        })
+      );
+  }
+  logOut() {
+    // remove user from local storage to log user out
+    return this.http.post(AppComponent.API_URL+"logout",{}).pipe(
+      map((response: Response) => {
+        localStorage.removeItem('currentUser');
+      })
+    );
   }
 
-  createBasicAuthToken(username: string, password: string) {
-    return 'Basic ' + window.btoa(username + ":" + password);
+  findUser<User>(){
+    return this.http.get<User>(AppComponent.API_URL+"/account/profile").pipe(
+      map((response: User)=>{
+
+        let currentuser: User;
+
+        currentuser=response;
+        return currentuser;
+
+      })
+    )
   }
 
-  getAuthHeader(): string {
-    return sessionStorage.getItem(this.BASIC_AUTH);
-  }
-
-  registerSuccessfulLogin(username, password) {
-    sessionStorage.setItem(this.LOGIN, username);
-    sessionStorage.setItem(this.BASIC_AUTH, this.createBasicAuthToken(username, password));
-  }
-
-  logout() {
-    sessionStorage.removeItem(this.LOGIN);
-    sessionStorage.removeItem(this.BASIC_AUTH);
-    this.cookieService.deleteAll();
-    this.username = null;
-    this.password = null;
-  }
-
-  isUserLoggedIn() {
-    let user = sessionStorage.getItem(this.BASIC_AUTH);
-    if (user === null) return false;
-    return true;
-  }
-
-  getLoggedInUserName() {
-    let user = sessionStorage.getItem(this.LOGIN);
-    if (user === null) return '';
-    return user;
-  }
 }

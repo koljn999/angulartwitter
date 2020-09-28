@@ -2,32 +2,30 @@
   <div class="p-3 content">
     <h2>
       <a href="" data-target="#sidebar" data-toggle="collapse" class="d-md-none"><i class="fa fa-bars"></i></a>
-     Главная
+    Мои посты
     </h2>
     <br><br>
     <form>
         <div class="form-group">
-          <label for="authorfirstname">Имя автора</label>
-          <textarea class="form-control" name="authorfirstname" id="authorfirstname" rows="1" [(ngModel)]="newPost.author.firstName"></textarea>
-          <label for="authorlastname">Фамилия автора</label>
-          <textarea class="form-control" name="authorlastname" id="authorlastname" rows="1" [(ngModel)]="newPost.author.lastName"></textarea>
-          <label for="authornickname">Ник автора</label>
-          <textarea class="form-control" name="authornickname" id="authornickname" rows="1" [(ngModel)]="newPost.author.nikName"></textarea>
+<!--          <label for="authorfirstname">Имя автора</label>-->
+<!--          <textarea class="form-control" name="authorfirstname" id="authorfirstname" rows="1" [(ngModel)]="newPost.author.firstName"></textarea>-->
+<!--          <label for="authorlastname">Фамилия автора</label>-->
+<!--          <textarea class="form-control" name="authorlastname" id="authorlastname" rows="1" [(ngModel)]="newPost.author.lastName"></textarea>-->
+<!--          <label for="authornickname">Ник автора</label>-->
+<!--          <textarea class="form-control" name="authornickname" id="authornickname" rows="1" [(ngModel)]="newPost.author.nikName"></textarea>-->
         <label for="content">Текст статьи</label>
         <textarea class="form-control" name="content" id="content" rows="5" [(ngModel)]="newPost.content"></textarea>
 
         </div>
     </form>
-    <div class="input-group"><button type="button" class="btn btn-primary pull-right" (click)="addPost()">Твитнуть</button></div>
+    <div class="input-group"><button type="button" class="btn btn-primary pull-right" (click)="addPost()">Запостить</button></div>
 
     <br>
 
     <div class="ramka" *ngFor="let post of posts">
       <h6 class="text-primary"> {{post.author.firstName}} {{post.author.lastName}}
-        <span class="text-secondary">{{post.author.nikName}}
-        </span> {{post.date|date:'medium'}}
         <i class="fa fa-pencil-square-o float-right lg" aria-hidden="true" (click)="openEditPost(post)"></i>
-
+        {{post.date| date:'mediumTime': 'UTC'}}
     </h6>
      <div class="post">{{post.content}}</div>
 

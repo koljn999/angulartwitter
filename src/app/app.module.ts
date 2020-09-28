@@ -12,13 +12,18 @@ import { PostsComponent } from './posts/posts.component';
 import {RouterModule} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
 import { MenuComponent } from './menu/menu.component';
-import { IditpostdialogComponent } from './iditpostdialog/iditpostdialog.component';
+import { EditpostdialogComponent } from './editpostdialog/editpostdialog.component';
 import {FormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import { LoginComponent } from './login/login.component';
 import {AppService} from "./servise/app.service";
 import {HttpInterceptorService} from "./servise/http-interceptor.service";
 import {CookieService} from "ngx-cookie-service";
+import { RegisterComponent } from './register/register.component';
+import { ProfileComponent } from './profile/profile.component';
+import {UrlPermission} from "./urlPermission/url.permission";
+import {PostService} from "./servise/post.service";
+import { EditprofileComponent } from './editprofile/editprofile.component';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -36,8 +41,11 @@ export class XhrInterceptor implements HttpInterceptor {
     AppComponent,
     PostsComponent,
     MenuComponent,
-    IditpostdialogComponent,
-    LoginComponent
+    EditpostdialogComponent,
+    LoginComponent,
+    RegisterComponent,
+    ProfileComponent,
+    EditprofileComponent
   ],
   imports: [BrowserModule,
     BrowserAnimationsModule,
@@ -52,7 +60,7 @@ export class XhrInterceptor implements HttpInterceptor {
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    IditpostdialogComponent
+    EditpostdialogComponent
   ],
   providers: [
     AppService,
@@ -61,7 +69,9 @@ export class XhrInterceptor implements HttpInterceptor {
       useClass: HttpInterceptorService,
       multi: true
     },
-    CookieService
+    CookieService,
+    UrlPermission,
+    PostService
   ],
 })
 export class AppModule { }

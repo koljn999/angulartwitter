@@ -11,16 +11,17 @@ export class HttpInterceptorService implements HttpInterceptor {
   constructor(private app: AppService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.app.isUserLoggedIn()) {
-      const authReq = req.clone({
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': this.app.getAuthHeader()
-        })
-      });
-      return next.handle(authReq);
-    } else {
-      return next.handle(req);
-    }
-  }
+  //   if (this.app.isUserLoggedIn()) {
+  //     const authReq = req.clone({
+  //       headers: new HttpHeaders({
+  //         'Content-Type': 'application/json',
+  //         'Authorization': this.app.getAuthHeader()
+  //       })
+  //     });
+  //     return next.handle(req);
+  //   } else {
+  //     return next.handle(req);
+  //   }
+    return next.handle(req);
+   }
 }

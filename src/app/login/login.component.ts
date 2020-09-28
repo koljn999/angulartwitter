@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AppService} from "../servise/app.service";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {User} from "../model/User";
 
 @Component({
   selector: 'app-login',
@@ -10,8 +11,7 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
-  username: string;
-  password: string;
+  user: User = new User();
   errorMessage = 'Вы не авторизованы';
   successMessage: string;
   invalidLogin = false;
@@ -22,17 +22,19 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    sessionStorage.clear();
+
   }
 
   handleLogin() {
-    this.app.authenticationService(this.username, this.password).subscribe((result)=> {
+    this.app.login(this.user).subscribe((result)=> {
+
       if (result) {
-        debugger
       this.invalidLogin = false;
       this.loginSuccess = true;
       this.successMessage = 'Вы авторизованы';
-      this.router.navigate(['/home']);
+      this.router.navigate(['/profile']);
+      //this.router.navigate(['/login']);
+
 
     } else {
       this.invalidLogin = true;
